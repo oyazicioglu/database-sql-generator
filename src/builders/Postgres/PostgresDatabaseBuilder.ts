@@ -8,7 +8,13 @@ class PostgresDatabaseBuilder extends AbstractDatabase implements IDatabaseBuild
     }
 
     Build(pool: Pool): Promise<Error | undefined> {
-        throw new Error('Method not implemented.');
+        const sqlArray = [`CREATE DATABASE ${this.name}`, this.createIfNotExists && 'IF NOT EXISTS'];
+        return new Promise((resolve, reject) => {
+            pool.query(sqlArray.join(' '), (err: Error) => {
+                if (err) return resolve(err);
+                return resolve(undefined);
+            });
+        });
     }
 }
 
