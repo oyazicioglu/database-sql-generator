@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "src/index.js",
         "test": "jest --collectCoverage",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch --collectCoverage"
     },
     "keywords": [],
     "author": "",
