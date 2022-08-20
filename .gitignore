@@ -2,3 +2,4 @@
 node_modules
 /coverage
 coverage
+/src/Configs/MySql.Config.json

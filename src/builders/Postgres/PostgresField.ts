@@ -1,0 +1,200 @@
+import { ForeignKey, IField } from '../IField';
+import { MysqlFieldTypes } from '../MySql/MySqlField';
+
+class PostgresField implements IField {
+    private _name: string;
+    public get name(): string {
+        return this._name;
+    }
+    private set name(value: string) {
+        this._name = value;
+    }
+
+    private _primaryKey: boolean = false;
+    public get primaryKey(): boolean {
+        return this._primaryKey;
+    }
+    private set primaryKey(value: boolean) {
+        this._primaryKey = value;
+    }
+
+    private _isNullable: boolean = true;
+    public get isNullable(): boolean {
+        return this._isNullable;
+    }
+    private set isNullable(value: boolean) {
+        this._isNullable = value;
+    }
+
+    private _autoIncrement: boolean = false;
+    public get autoIncrement(): boolean {
+        return this._autoIncrement;
+    }
+    private set autoIncrement(value: boolean) {
+        this._autoIncrement = value;
+    }
+    private _unique: boolean = false;
+    public get unique(): boolean {
+        return this._unique;
+    }
+    private set unique(value: boolean) {
+        this._unique = value;
+    }
+    private _type: PostgresqlFieldTypes = PostgresqlFieldTypes.CharacterVarying;
+    public get type(): PostgresqlFieldTypes {
+        return this._type;
+    }
+    private set type(value: PostgresqlFieldTypes) {
+        this._type = value;
+    }
+
+    private _length: number | undefined = 55;
+    public get length(): number | undefined {
+        return this._length;
+    }
+    private set length(value: number | undefined) {
+        this._length = value;
+    }
+
+    private _defaultValue?: string | undefined;
+    public get defaultValue(): string | undefined {
+        return this._defaultValue;
+    }
+
+    private set defaultValue(value: string | undefined) {
+        this._defaultValue = value;
+    }
+
+    private _foreignKey?: ForeignKey | undefined;
+    public get foreignKey(): ForeignKey | undefined {
+        return this._foreignKey;
+    }
+    private set foreignKey(value: ForeignKey | undefined) {
+        this._foreignKey = value;
+    }
+
+    constructor(name: string, type: PostgresqlFieldTypes) {
+        this._name = name;
+        this._type = type;
+    }
+    AutoIncrement(autoIncrement: boolean): IField {
+        this.autoIncrement = autoIncrement;
+        return this;
+    }
+
+    Default(defaultValue: string): IField {
+        this.defaultValue = defaultValue;
+        return this;
+    }
+
+    Name(name: string): IField {
+        this.name = name;
+        return this;
+    }
+
+    Type(type: PostgresqlFieldTypes) {
+        this.type = type;
+        return this;
+    }
+
+    Length(length: number): IField {
+        this.length = length;
+        return this;
+    }
+
+    PrimaryKey(primaryKey: boolean): IField {
+        this.primaryKey = primaryKey;
+        return this;
+    }
+
+    Unique(unique: boolean): IField {
+        this.unique = unique;
+        return this;
+    }
+
+    ForeignKey(foreignKey: ForeignKey): IField {
+        this.foreignKey = foreignKey;
+        return this;
+    }
+
+    IsNullable(isNullable: boolean): IField {
+        this.isNullable = isNullable;
+        return this;
+    }
+
+    Build(): string {
+        const totalSqlArray = [
+            this.name,
+            this.TypeSql(),
+            this.UniqueSql(),
+            this.AutoIncrementSql(),
+            this.DefaultSql(),
+            this.IsNullSql(),
+            this.ForeignKeySql(),
+            this.PrimaryKeySql(),
+        ];
+
+        const sql = totalSqlArray.filter((f) => f !== '');
+        return sql.join(' ');
+    }
+
+    private PrimaryKeySql(): string {
+        if (!this.primaryKey) return '';
+        return `PRIMARY KEY (${this.name})`;
+    }
+
+    private DefaultSql(): string {
+        if (!this.defaultValue) return '';
+        return `DEFAULT ${this.defaultValue}`;
+    }
+
+    private UniqueSql(): string {
+        if (!this.unique) return '';
+        return 'UNIQUE';
+    }
+
+    private AutoIncrementSql(): string {
+        if (!this.autoIncrement) return '';
+        return 'AUTO_INCREMENT';
+    }
+
+    private TypeSql(): string {
+        if (!this.type) return '';
+        return this.length ? `${this.type.toString()}(${this.length.toString()})` : this.type.toString();
+    }
+
+    private IsNullSql(): string {
+        if (this.isNullable) return '';
+        return 'NOT NULL';
+    }
+
+    private ForeignKeySql(): string {
+        if (!this.foreignKey) return ``;
+        return `FOREIGN KEY(fk_${this.foreignKey.tableName}_${this.foreignKey.field}) REFERENCES ${this.foreignKey.tableName} (${this.foreignKey.field})`;
+    }
+}
+
+enum PostgresqlFieldTypes {
+    BigInt = 'bigint',
+    BigSerial = 'bigserial',
+    Bit = 'bit',
+    BitVarying = 'bit varying',
+    Boolean = 'boolean',
+    Character = 'character',
+    CharacterVarying = 'character varying',
+    DoublePrecision = 'double precision',
+    Integer = 'integer',
+    Json = 'json',
+    Money = 'money',
+    Numeric = 'numeric',
+    Path = 'path',
+    Real = 'real',
+    SmallInt = 'smallint',
+    SmallSerial = 'smallserial',
+    Serial = 'serial',
+    Text = 'text',
+    Time = 'time ',
+    Timestamp = 'timestamp ',
+}
+
+export { PostgresField, PostgresqlFieldTypes };
