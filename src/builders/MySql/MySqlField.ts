@@ -5,7 +5,7 @@ class MySqlField implements IField {
     public get name(): string {
         return this._name;
     }
-    public set name(value: string) {
+    private set name(value: string) {
         this._name = value;
     }
 
@@ -13,7 +13,7 @@ class MySqlField implements IField {
     public get primaryKey(): boolean {
         return this._primaryKey;
     }
-    public set primaryKey(value: boolean) {
+    private set primaryKey(value: boolean) {
         this._primaryKey = value;
     }
 
@@ -21,7 +21,7 @@ class MySqlField implements IField {
     public get isNullable(): boolean {
         return this._isNullable;
     }
-    public set isNullable(value: boolean) {
+    private set isNullable(value: boolean) {
         this._isNullable = value;
     }
 
@@ -29,21 +29,21 @@ class MySqlField implements IField {
     public get autoIncrement(): boolean {
         return this._autoIncrement;
     }
-    public set autoIncrement(value: boolean) {
+    private set autoIncrement(value: boolean) {
         this._autoIncrement = value;
     }
     private _unique: boolean = false;
     public get unique(): boolean {
         return this._unique;
     }
-    public set unique(value: boolean) {
+    private set unique(value: boolean) {
         this._unique = value;
     }
     private _type: MysqlFieldTypes = MysqlFieldTypes.VARCHAR;
     public get type(): MysqlFieldTypes {
         return this._type;
     }
-    public set type(value: MysqlFieldTypes) {
+    private set type(value: MysqlFieldTypes) {
         this._type = value;
     }
 
@@ -51,7 +51,7 @@ class MySqlField implements IField {
     public get length(): number | undefined {
         return this._length;
     }
-    public set length(value: number | undefined) {
+    private set length(value: number | undefined) {
         this._length = value;
     }
 
@@ -60,7 +60,7 @@ class MySqlField implements IField {
         return this._defaultValue;
     }
 
-    public set defaultValue(value: string | undefined) {
+    private set defaultValue(value: string | undefined) {
         this._defaultValue = value;
     }
 
@@ -68,7 +68,7 @@ class MySqlField implements IField {
     public get foreignKey(): ForeignKey | undefined {
         return this._foreignKey;
     }
-    public set foreignKey(value: ForeignKey | undefined) {
+    private set foreignKey(value: ForeignKey | undefined) {
         this._foreignKey = value;
     }
 
