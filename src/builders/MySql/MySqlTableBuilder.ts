@@ -1,7 +1,6 @@
 import { AbstractTable } from '../AbstractTable';
 import { IField } from '../IField';
 import { ITableBuilder } from '../ITableBuilder';
-import { MySqlField } from './MySqlField';
 
 class MySqlTableBuilder extends AbstractTable implements ITableBuilder {
     private _engine: MysqlEngineTypes = 'InnoDB';
