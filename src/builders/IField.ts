@@ -1,4 +1,5 @@
 import { MysqlFieldTypes } from './MySql/MySqlField';
+import { PostgresqlFieldTypes } from './Postgres/PostgresField';
 
 interface IField {
     Name(name: string): IField;
@@ -8,7 +9,7 @@ interface IField {
     IsNullable(isNullable: boolean): IField;
     Default(defaultValue: string): IField;
     AutoIncrement(autoIncrement: boolean): IField;
-    Type(type: MysqlFieldTypes): IField;
+    Type(type: MysqlFieldTypes | PostgresqlFieldTypes): IField;
     Length(length: number): IField;
     name: string;
     primaryKey: boolean;
@@ -17,7 +18,7 @@ interface IField {
     foreignKey: ForeignKey | undefined;
     defaultValue: string | undefined;
     autoIncrement: boolean;
-    type: MysqlFieldTypes;
+    type: MysqlFieldTypes | PostgresqlFieldTypes;
     length: number | undefined;
     Build(): string;
 }

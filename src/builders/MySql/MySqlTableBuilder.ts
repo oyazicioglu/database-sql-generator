@@ -1,24 +1,9 @@
+import { AbstractTable } from '../AbstractTable';
 import { IField } from '../IField';
 import { ITableBuilder } from '../ITableBuilder';
 import { MySqlField } from './MySqlField';
 
-class MySqlTableBuilder implements ITableBuilder {
-    private _name: string;
-    public get name(): string {
-        return this._name;
-    }
-    public set name(value: string) {
-        this._name = value;
-    }
-
-    private _fields: IField[];
-    public get fields(): IField[] {
-        return this._fields;
-    }
-    public set fields(value: IField[]) {
-        this._fields = value;
-    }
-
+class MySqlTableBuilder extends AbstractTable implements ITableBuilder {
     private _engine: MysqlEngineTypes = 'InnoDB';
     public get engine(): MysqlEngineTypes {
         return this._engine;
@@ -28,21 +13,8 @@ class MySqlTableBuilder implements ITableBuilder {
     }
 
     constructor(name: string, fields: IField[], engine: MysqlEngineTypes = 'InnoDB') {
-        this._name = name;
-        this._fields = fields;
+        super(name, fields);
         this._engine = engine;
-    }
-
-    AddField(field: IField) {
-        if (!this.fields || this.fields.length === 0) {
-            this.fields = [];
-        }
-        this.fields.push(field);
-    }
-
-    RemoveField(field: IField) {
-        if (!this.fields || !Array.isArray(this.fields) || this.fields.length === 0) return;
-        this.fields = this.fields.filter((f) => f !== field);
     }
 
     #CreateFields(fields: IField[]) {

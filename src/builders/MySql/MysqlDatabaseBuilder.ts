@@ -1,30 +1,20 @@
+import { FieldInfo, MysqlError, Pool } from 'mysql';
+import { AbstractDatabase } from '../AbstractDatabase';
 import { IDatabaseBuilder } from '../IDatabaseBuilder';
 
-class MySqlDatabaseBuilder implements IDatabaseBuilder {
-    private _name: string;
-    public get name(): string {
-        return this._name;
-    }
-    public set name(value: string) {
-        this._name = value;
-    }
-
-    private _createIfNotExists: boolean;
-    public get createIfNotExists(): boolean {
-        return this._createIfNotExists;
-    }
-    public set createIfNotExists(value: boolean) {
-        this._createIfNotExists = value;
-    }
-
+class MySqlDatabaseBuilder extends AbstractDatabase implements IDatabaseBuilder {
     constructor(name: string, createIfNotExists: boolean = true) {
-        this._name = name;
-        this._createIfNotExists = createIfNotExists;
+        super(name, createIfNotExists);
     }
 
-    Build(): string {
+    async Build(pool: Pool): Promise<Error | undefined> {
         const sqlArray = [`CREATE DATABASE ${this.name}`, this.createIfNotExists && 'IF NOT EXISTS'];
-        return sqlArray.join(' ');
+        return new Promise((resolve, reject) => {
+            pool.query(sqlArray.join(' '), (err: MysqlError) => {
+                if (err) return resolve(new Error(`${err.message} - ${err.sqlMessage}`));
+                return resolve(undefined);
+            });
+        });
     }
 }
 

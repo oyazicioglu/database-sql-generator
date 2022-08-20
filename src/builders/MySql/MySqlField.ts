@@ -205,4 +205,4 @@ enum MysqlFieldTypes {
     YEAR = 'YEAR',
 }
 
-export { MySqlField, MysqlFieldTypes, ForeignKey };
+export { MySqlField, MysqlFieldTypes };

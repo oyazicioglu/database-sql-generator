@@ -1,21 +1,34 @@
-import { MySqlDatabaseBuilder } from '../src/builders/MySql/MysqlDatabaseBuilder';
+import { createPool } from 'mysql';
+import { MySqlDatabaseBuilder } from '../src/builders/MySql/MySqlDatabaseBuilder';
+import { default as Config } from '../src/Configs/MySql.Config.json';
 
 describe('Mysql Database Builder', () => {
-    const mysqlDatabaseBuilder = new MySqlDatabaseBuilder('user', true);
+    const mysqlDatabaseBuilder = new MySqlDatabaseBuilder('b2b', true);
+    const mysqlPool = createPool({
+        host: Config.host,
+        user: Config.user,
+        password: Config.user,
+        database: Config.database,
+    });
 
-    it('should have name property', () => {
+    test('should have name property', () => {
         expect(mysqlDatabaseBuilder).toHaveProperty('name');
     });
 
-    it('should have createIfNotExists property', () => {
+    test('should have createIfNotExists property', () => {
         expect(mysqlDatabaseBuilder).toHaveProperty('createIfNotExists');
     });
 
-    it('database name should be user', () => {
-        expect(mysqlDatabaseBuilder.name).toBe('user');
+    test('database name should be user', () => {
+        expect(mysqlDatabaseBuilder.name).toBe('b2b');
     });
 
-    it('createIfNotExists property should be true', () => {
+    test('createIfNotExists property should be true', () => {
         expect(mysqlDatabaseBuilder.createIfNotExists).toEqual(true);
+    });
+
+    test('shoud create database without error', async () => {
+        const result = await mysqlDatabaseBuilder.Build(mysqlPool);
+        console.log(result);
     });
 });
