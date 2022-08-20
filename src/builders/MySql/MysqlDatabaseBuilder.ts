@@ -1,4 +1,4 @@
-import { FieldInfo, MysqlError, Pool } from 'mysql';
+import { MysqlError, Pool } from 'mysql';
 import { AbstractDatabase } from '../AbstractDatabase';
 import { IDatabaseBuilder } from '../IDatabaseBuilder';
 

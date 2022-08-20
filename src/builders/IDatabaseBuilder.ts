@@ -1,8 +1,8 @@
-import { MysqlError, Pool } from 'mysql';
-import { Pool as PostgresPool } from 'pg';
+import { Pool } from 'mysql';
+import { Pool as PostgresPool, QueryResult } from 'pg';
 
 interface IDatabaseBuilder {
-    Build(pool: Pool | PostgresPool): Promise<Error | undefined>;
+    Build(pool: Pool | PostgresPool): Promise<Error | undefined | QueryResult>;
     createIfNotExists: boolean;
     name: string;
 }
