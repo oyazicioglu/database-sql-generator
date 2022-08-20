@@ -172,10 +172,6 @@ class MySqlField implements IField {
         if (!this.foreignKey) return ``;
         return `FOREIGN KEY(fk_${this.foreignKey.tableName}_${this.foreignKey.field}) REFERENCES ${this.foreignKey.tableName} (${this.foreignKey.field})`;
     }
-
-    private LengthSql() {
-        return this.length?.toString();
-    }
 }
 
 enum MysqlFieldTypes {
