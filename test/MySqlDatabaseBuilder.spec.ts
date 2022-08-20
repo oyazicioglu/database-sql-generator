@@ -1,15 +1,10 @@
-import { createPool } from 'mysql';
 import { MySqlDatabaseBuilder } from '../src/builders/MySql/MySqlDatabaseBuilder';
-import { default as Config } from '../src/Configs/MySql.Config.json';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 describe('Mysql Database Builder', () => {
-    const mysqlDatabaseBuilder = new MySqlDatabaseBuilder('b2b', true);
-    const mysqlPool = createPool({
-        host: Config.host,
-        user: Config.user,
-        password: Config.user,
-        database: Config.database,
-    });
+    const mysqlDatabaseBuilder = new MySqlDatabaseBuilder('B2C', true);
 
     test('should have name property', () => {
         expect(mysqlDatabaseBuilder).toHaveProperty('name');
@@ -20,15 +15,10 @@ describe('Mysql Database Builder', () => {
     });
 
     test('database name should be user', () => {
-        expect(mysqlDatabaseBuilder.name).toBe('b2b');
+        expect(mysqlDatabaseBuilder.name).toBe('B2C');
     });
 
     test('createIfNotExists property should be true', () => {
         expect(mysqlDatabaseBuilder.createIfNotExists).toEqual(true);
-    });
-
-    test('shoud create database without error', async () => {
-        const result = await mysqlDatabaseBuilder.Build(mysqlPool);
-        console.log(result);
     });
 });
