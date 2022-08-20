@@ -17,14 +17,16 @@ describe('Table Builder', () => {
         expect(tableBuilder).toHaveProperty('name');
     });
 
+    test('should have engine property', () => {
+        expect(tableBuilder).toHaveProperty('engine');
+    });
+
     test('table name should be user', () => {
         expect(tableBuilder.name).toEqual('user');
     });
 
     test('fields should have at least one element', () => {
         tableBuilder.AddField(field);
-        console.log(tableBuilder.Build());
-
         expect(tableBuilder.fields.length).toBeGreaterThanOrEqual(1);
     });
 
@@ -49,6 +51,21 @@ describe('Table Builder', () => {
     test('table name should be user', () => {
         tableBuilder.name = 'user';
         expect(tableBuilder.name).toBe('user');
+    });
+
+    test('Build should not be null', () => {
+        const tableSql = tableBuilder.Build();
+        expect(tableSql).not.toBeNull();
+    });
+
+    test('Build should be type of string', () => {
+        const tableSql = tableBuilder.Build();
+        expect(typeof tableSql).toBe('string');
+    });
+
+    test('fields length should be 0', () => {
+        tableBuilder.RemoveField(field);
+        expect(tableBuilder.fields.length).toBe(0);
     });
 });
 
