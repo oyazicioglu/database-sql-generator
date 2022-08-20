@@ -19,7 +19,7 @@ class MySqlTableBuilder implements ITableBuilder {
         this._fields = value;
     }
 
-    private _engine: MysqlEngineTypes;
+    private _engine: MysqlEngineTypes = 'InnoDB';
     public get engine(): MysqlEngineTypes {
         return this._engine;
     }
