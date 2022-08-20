@@ -4,3 +4,5 @@ node_modules
 coverage
 /src/Configs/MySql.Config.json
 /src/Configs/Postgres.Config.json
+.env
+/.env
